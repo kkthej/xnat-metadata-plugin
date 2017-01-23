@@ -1,3 +1,12 @@
+/*
+ * xnat-template: org.apache.turbine.app.xnat.modules.screens.TemplateScreen
+ * XNAT http://www.xnat.org
+ * Copyright (c) 2017, Washington University School of Medicine
+ * All Rights Reserved
+ *
+ * Released under the Simplified BSD.
+ */
+
 package org.apache.turbine.app.xnat.modules.screens;
 
 import org.apache.turbine.util.RunData;

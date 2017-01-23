@@ -1,7 +1,7 @@
 /*
- * xnat-workshop-plugin: org.nrg.xnat.plugins.template.plugin.WorkshopXnatPlugin
+ * xnat-template: org.nrg.xnat.plugins.template.plugin.XnatTemplatePlugin
  * XNAT http://www.xnat.org
- * Copyright (c) 2016, Washington University School of Medicine
+ * Copyright (c) 2017, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -12,6 +12,8 @@ package org.nrg.xnat.plugins.template.plugin;
 import org.nrg.framework.annotations.XnatDataModel;
 import org.nrg.framework.annotations.XnatPlugin;
 import org.nrg.xdat.bean.TemplateSampleBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -25,8 +27,14 @@ import org.springframework.context.annotation.ComponentScan;
                 "org.nrg.xnat.plugins.template.rest",
                 "org.nrg.xnat.plugins.template.services.impl"})
 public class XnatTemplatePlugin {
-    @Bean
-    public String workshopPluginMessage() {
-        return "Hello there from the workshop plugin!";
+    public XnatTemplatePlugin() {
+        _log.info("Creating the XnatTemplatePlugin configuration class");
     }
+
+    @Bean
+    public String templatePluginMessage() {
+        return "This comes from deep within the template plugin.";
+    }
+
+    private static final Logger _log = LoggerFactory.getLogger(XnatTemplatePlugin.class);
 }

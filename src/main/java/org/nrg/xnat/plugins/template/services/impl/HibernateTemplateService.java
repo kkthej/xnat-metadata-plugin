@@ -1,7 +1,7 @@
 /*
- * xnat-workshop-plugin: org.nrg.xnat.plugins.template.services.impl.HibernateTemplateService
+ * xnat-template: org.nrg.xnat.plugins.template.services.impl.HibernateTemplateService
  * XNAT http://www.xnat.org
- * Copyright (c) 2016, Washington University School of Medicine
+ * Copyright (c) 2017, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -16,6 +16,9 @@ import org.nrg.xnat.plugins.template.services.TemplateService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Manages {@link Template} data objects in Hibernate.
+ */
 @Service
 public class HibernateTemplateService extends AbstractHibernateEntityService<Template, TemplateRepository> implements TemplateService {
     /**

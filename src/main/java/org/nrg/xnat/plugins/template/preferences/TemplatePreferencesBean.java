@@ -1,7 +1,7 @@
 /*
- * xnat-workshop-plugin: org.nrg.xnat.plugins.template.preferences.SubjectMappingPreferencesBean
+ * xnat-template: org.nrg.xnat.plugins.template.preferences.TemplatePreferencesBean
  * XNAT http://www.xnat.org
- * Copyright (c) 2016, Washington University School of Medicine
+ * Copyright (c) 2017, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -27,13 +27,13 @@ public class TemplatePreferencesBean extends AbstractPreferenceBean {
     }
 
     @NrgPreference
-    public List<String> getTemplateIds() {
-        return getListValue("templateIds");
+    public List<String> getTemplateTypes() {
+        return getListValue("templateTypes");
     }
 
-    public void setTemplateIds(final List<String> templateIds) {
+    public void setTemplateTypes(final List<String> templateTypes) {
         try {
-            setListValue("templateIds", templateIds);
+            setListValue("templateTypes", templateTypes);
         } catch (InvalidPreferenceName invalidPreferenceName) {
             //
         }

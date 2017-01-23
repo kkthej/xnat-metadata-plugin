@@ -1,33 +1,24 @@
 /*
- * xnat-template-plugin: build.gradle
+ * xnat-template: build.gradle
  * XNAT http://www.xnat.org
- * Copyright (c) 2016, Washington University School of Medicine
+ * Copyright (c) 2017, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
  */
 
+import org.gradle.internal.jvm.Jvm
+
 // TODO: Change the group and version to values appropriate for your plugin project.
 group 'org.nrg.xnat.plugins'
 version '1.0.0-SNAPSHOT'
 
-def vXnat = '1.7.2-SNAPSHOT'
-def vJunit = '4.12'
-def vSpring = '4.2.9.RELEASE'
-def vSlf4j = '1.7.21'
-def vLog4j = '1.2.17'
-def vSpringSecurity = '4.0.4.RELEASE'
-def vSwagger = '2.4.0'
-
-apply plugin: 'groovy'
+// TODO: This is the minimum set of Gradle plugins required to build most XNAT plugins. You may include many others, including plugins for testing and test coverage, IDE integration, and more.
 apply plugin: 'java'
-apply plugin: 'jacoco'
 apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 apply plugin: 'xnat-data-builder'
 
+// TODO: This block is required for the 'xnat-data-builder' plugin to function.
 buildscript {
     repositories {
         mavenLocal()
@@ -43,14 +34,58 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.nrg.xnat.build:xnat-data-builder:1.7.1"
+        classpath "org.nrg.xnat.build:xnat-data-builder:1.7.2"
     }
 }
 
+// TODO: As of the 1.7.x release, XNAT is built as a Java 7-compatible (i.e. JDK 1.7) application. All plugins must be 1.7 compatible as well.
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+// TODO: If the compiler is Java 8 or later, this checks for a Java 7 version of the primary Java run-time library. Building with post-Java 7 libraries can result in occasional compatibility issues.
+def javaVersion = Jvm.current().javaVersion
+if (javaVersion.java8Compatible || javaVersion.java9Compatible) {
+    if (hasProperty("rt.17.jar")) {
+        // Solution for bootstrap classpath warning and possible issues with compatibility with 1.7 libraries
+        // was taken from this post on discuss.gradle.org: http://bit.ly/24xD9j0
+        def rt17jar = getProperty("rt.17.jar")
+        logger.info "Using ${rt17jar} as the bootstrap class path jar."
+        gradle.projectsEvaluated {
+            tasks.withType(JavaCompile) {
+                options.fork = true
+                options.compilerArgs << "-XDignore.symbol.file"
+                options.bootClasspath = rt17jar
+            }
+        }
+    } else {
+        logger.warn "No value was set for the rt.17.jar build property, using the default bootstrap class path. You should consider setting rt.17.jar to indicate a jar file containing the Java 1.7 run-time library:\n"
+        logger.warn "  ./gradlew -Prt.17.jar=rt-1.7.0_45.jar war\n"
+    }
+}
+
+// TODO: This tells the compiler where to find source code. This isn't required in a standard build, but the XNAT data builder generates code from XNAT data-type schemas that the compiler needs to know about.
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'build/xnat-generated/src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+            srcDir 'build/xnat-generated/src/main/resources'
+        }
+    }
+}
+
+// TODO: This provides access to all of these repositories for dependency resolution.
 repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
+    maven {
+        url 'http://dcm4che.org/maven2'
+        name 'dcm4che Maven Repository'
+    }
     maven {
         url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
         name 'XNAT Release Repository'
@@ -65,58 +100,15 @@ repositories {
     }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+// TODO: Keeping your versions as variables makes it easier to update versions when you have multiple libraries from the same framework that thus have the same version.
+// TODO: These versions will change over time as XNAT development continues. Check the latest version of the XNAT template plugin or the XNAT versioning matrix page.
+def vXnat = '1.7.2'
+def vJunit = '4.12'
+def vSpring = '4.2.9.RELEASE'
+def vLog4j = '1.2.17'
+def vSwagger = '2.4.0'
 
-if (hasProperty("rt.17.jar")) {
-    // Solution for bootstrap classpath warning and possible issues with compatibility with 1.7 libraries
-    // was taken from this post on discuss.gradle.org: http://bit.ly/24xD9j0
-    def rt17jar = getProperty("rt.17.jar")
-    logger.info "Using ${rt17jar} as the bootstrap class path jar."
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.fork = true
-            options.compilerArgs << "-XDignore.symbol.file"
-            options.bootClasspath = rt17jar
-        }
-    }
-} else {
-    logger.warn "No value was set for the rt.17.jar build property, using the default bootstrap class path. You should consider setting rt.17.jar to indicate a jar file containing the Java 1.7 run-time library:\n"
-    logger.warn "  ./gradlew -Prt.17.jar=rt-1.7.0_45.jar war\n"
-}
-
-compileJava {
-    options.fork = false
-}
-
-jacoco {
-    toolVersion = "0.7.8"
-}
-
-jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "${buildDir}/jacocoHtml"
-    }
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-            srcDir 'build/xnat-generated/src/main/java'
-        }
-        resources {
-            srcDir 'src/main/resources'
-            srcDir 'build/xnat-generated/src/main/resources'
-        }
-    }
-}
-
-// TODO: You will likely need many of the following dependencies to build your plugin. You should remove as much as 
-// possible though!
+// TODO: This is a pretty minimal set of dependencies, so don't worry if you need to add more.
 dependencies {
     compile("org.nrg.xnat:web:${vXnat}") {
         exclude group: '*'
@@ -130,9 +122,6 @@ dependencies {
     compile "org.nrg:prefs:${vXnat}"
     compile "org.nrg:framework:${vXnat}"
 
-    compile "org.reflections:reflections:0.9.10"
-    compile "javax.servlet:javax.servlet-api:3.1.0"
-
     compile(group: 'turbine', name: 'turbine', version: '2.3.3') {
         exclude group: '*'
     }
@@ -140,76 +129,6 @@ dependencies {
         exclude group: '*'
     }
 
-    compile "org.slf4j:slf4j-api:${vSlf4j}"
-    compile "org.slf4j:slf4j-log4j12:${vSlf4j}"
-    compile "org.slf4j:jul-to-slf4j:${vSlf4j}"
     compile "log4j:log4j:${vLog4j}"
-
-    compile "org.springframework:spring-aop:${vSpring}"
-    compile "org.springframework:spring-beans:${vSpring}"
-    compile "org.springframework:spring-context-support:${vSpring}"
-    compile "org.springframework:spring-context:${vSpring}"
-    compile "org.springframework:spring-core:${vSpring}"
-    compile "org.springframework:spring-jdbc:${vSpring}"
-    compile "org.springframework:spring-jms:${vSpring}"
-    compile "org.springframework:spring-messaging:${vSpring}"
-    compile "org.springframework:spring-orm:${vSpring}"
-    compile "org.springframework:spring-oxm:${vSpring}"
-    compile "org.springframework:spring-tx:${vSpring}"
-    compile "org.springframework:spring-web:${vSpring}"
-    compile "org.springframework:spring-webmvc:${vSpring}"
-
     compile "io.springfox:springfox-swagger2:${vSwagger}"
-    compile "io.springfox:springfox-swagger-ui:${vSwagger}"
-
-    compile "org.springframework.security:spring-security-acl:${vSpringSecurity}"
-    compile "org.springframework.security:spring-security-aspects:${vSpringSecurity}"
-    compile "org.springframework.security:spring-security-config:${vSpringSecurity}"
-    compile "org.springframework.security:spring-security-ldap:${vSpringSecurity}"
-    compile "org.springframework.security:spring-security-taglibs:${vSpringSecurity}"
-    compile "org.springframework.ldap:spring-ldap-core:2.0.4.RELEASE"
-
-    compile "ecs:ecs:1.4.2"
-    compile("stratum:stratum:1.0") {
-        transitive = false
-    }
-
-    testCompile "junit:junit:${vJunit}"
-    testCompile "org.springframework:spring-test:${vSpring}"
-}
-
-// TODO: Replace the text, URLs, and other information below with your own.
-publishing.publications {
-    mavenJava(MavenPublication) {
-        from components.java
-
-        pom.withXml {
-            def root = asNode()
-            root.appendNode('name', 'XNAT 1.7 Template Plugin')
-            root.appendNode('url', 'https://bitbucket.org/xnatdev/xnat-template-plugin')
-            root.appendNode('inceptionYear', '2016')
-
-            def scm = root.appendNode('scm')
-            scm.appendNode('url', 'https://bitbucket.org/xnatdev/xnat-template-plugin')
-            scm.appendNode('connection', 'scm:https://bitbucket.org/xnatdev/xnat-template-plugin.git')
-            scm.appendNode('developerConnection', 'scm:git://bitbucket.org/xnatdev/xnat-template-plugin.git')
-
-            def license = root.appendNode('licenses').appendNode('license')
-            license.appendNode('name', 'Simplified BSD 2-Clause License')
-            license.appendNode('url', 'http://xnat.org/about/license.php')
-            license.appendNode('distribution', 'repo')
-
-            def developers = root.appendNode('developers')
-
-            def jane = developers.appendNode('developer')
-            jane.appendNode('id', 'jane.developer')
-            jane.appendNode('name', 'Jane Developer')
-            jane.appendNode('email', 'jane.developer@oldschool.edu')
-
-            def joe = developers.appendNode('developer')
-            joe.appendNode('id', 'joe.developer')
-            joe.appendNode('name', 'Joe Developer')
-            joe.appendNode('email', 'joe.developer@oldschool.edu')
-        }
-    }
 }
