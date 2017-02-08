@@ -9,9 +9,6 @@
 
 package org.nrg.xnat.plugins.template.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.nrg.framework.orm.hibernate.AbstractHibernateEntity;
 
@@ -21,10 +18,15 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "templateId"))
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(prefix = "_")
 @Slf4j
 public class Template extends AbstractHibernateEntity {
     private String _templateId;
+
+    public String getTemplateId() {
+        return _templateId;
+    }
+
+    public void setTemplateId(final String templateId) {
+        _templateId = templateId;
+    }
 }

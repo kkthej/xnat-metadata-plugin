@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@NrgPreferenceBean(toolId = "template", toolName = "XNAT 1.7 Template Plugin")
+@NrgPreferenceBean(toolId = "template", toolName = "XNAT Template Plugin")
 @Slf4j
 public class TemplatePreferencesBean extends AbstractPreferenceBean {
     @Autowired
