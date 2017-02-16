@@ -9,6 +9,8 @@
 
 package org.nrg.xnat.plugins.template.plugin;
 
+import org.nrg.dcm.id.CompositeDicomObjectIdentifier;
+import org.nrg.dcm.id.FixedProjectSubjectDicomObjectIdentifier;
 import org.nrg.framework.annotations.XnatDataModel;
 import org.nrg.framework.annotations.XnatPlugin;
 import org.nrg.xdat.bean.TemplateSampleBean;
@@ -16,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @XnatPlugin(value = "templatePlugin", name = "XNAT 1.7 Template Plugin", entityPackages = "org.nrg.xnat.plugins.template.entities",
         dataModels = @XnatDataModel(value = TemplateSampleBean.SCHEMA_ELEMENT_NAME,
@@ -29,6 +32,11 @@ import org.springframework.context.annotation.ComponentScan;
 public class XnatTemplatePlugin {
     public XnatTemplatePlugin() {
         _log.info("Creating the XnatTemplatePlugin configuration class");
+    }
+
+    @Bean
+    public CompositeDicomObjectIdentifier projectXnat02Identifier(final JdbcTemplate template) {
+        return new FixedProjectSubjectDicomObjectIdentifier(template, "XNAT_02", "XNAT_02_01");
     }
 
     @Bean

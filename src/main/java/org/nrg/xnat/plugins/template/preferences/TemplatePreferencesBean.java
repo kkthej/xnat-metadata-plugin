@@ -26,7 +26,20 @@ public class TemplatePreferencesBean extends AbstractPreferenceBean {
         super(preferenceService, configFolderPaths);
     }
 
-    @NrgPreference
+    @NrgPreference(defaultValue = "['Standard']")
+    public List<String> getTemplateNames() {
+        return getListValue("templateNames");
+    }
+
+    public void setTemplateNames(final List<String> templateNames) {
+        try {
+            setListValue("templateNames", templateNames);
+        } catch (InvalidPreferenceName invalidPreferenceName) {
+            //
+        }
+    }
+
+    @NrgPreference(defaultValue = "['standard']")
     public List<String> getTemplateTypes() {
         return getListValue("templateTypes");
     }
