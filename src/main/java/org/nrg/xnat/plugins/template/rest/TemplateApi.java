@@ -14,7 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.nrg.framework.annotations.XapiRestController;
-import org.nrg.xdat.rest.AbstractXapiRestController;
+import org.nrg.xapi.rest.AbstractXapiRestController;
+import org.nrg.xapi.rest.XapiRequestMapping;
 import org.nrg.xdat.security.services.RoleHolder;
 import org.nrg.xdat.security.services.UserManagementServiceI;
 import org.nrg.xnat.plugins.template.entities.Template;
@@ -44,7 +45,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Templates successfully retrieved."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
     public ResponseEntity<List<Template>> getEntities() {
         return new ResponseEntity<>(_templateService.getAll(), HttpStatus.OK);
     }
@@ -53,7 +54,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully created."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST)
+    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST)
     public ResponseEntity<Template> createEntity(@RequestBody final Template entity) {
         final Template created = _templateService.create(entity);
         return new ResponseEntity<>(created, HttpStatus.OK);
@@ -65,7 +66,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully retrieved."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
     public ResponseEntity<Template> getEntity(@PathVariable final String id) {
         return new ResponseEntity<>(_templateService.findByTemplateId(id), HttpStatus.OK);
     }
@@ -76,7 +77,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully updated."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.PUT)
+    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.PUT)
     public ResponseEntity<Void> updateEntity(@PathVariable final Long id, @RequestBody final Template entity) {
         final Template existing = _templateService.retrieve(id);
         existing.setTemplateId(entity.getTemplateId());
@@ -90,7 +91,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully deleted."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.DELETE)
+    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteEntity(@PathVariable final Long id) {
         final Template existing = _templateService.retrieve(id);
         _templateService.delete(existing);

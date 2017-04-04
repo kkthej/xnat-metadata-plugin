@@ -12,7 +12,8 @@ package org.nrg.xnat.plugins.template.rest;
 import io.swagger.annotations.*;
 import org.nrg.framework.annotations.XapiRestController;
 import org.nrg.prefs.exceptions.InvalidPreferenceName;
-import org.nrg.xdat.rest.AbstractXapiRestController;
+import org.nrg.xapi.rest.AbstractXapiRestController;
+import org.nrg.xapi.rest.XapiRequestMapping;
 import org.nrg.xdat.security.services.RoleHolder;
 import org.nrg.xdat.security.services.UserManagementServiceI;
 import org.nrg.xnat.plugins.template.preferences.TemplatePreferencesBean;
@@ -42,7 +43,7 @@ public class TemplatePrefsApi extends AbstractXapiRestController {
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 403, message = "Not authorized to set site configuration properties."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @XapiRequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getTemplatePreferences() {
         final HttpStatus status = isPermitted();
         if (status != null) {
@@ -56,7 +57,7 @@ public class TemplatePrefsApi extends AbstractXapiRestController {
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 403, message = "Not authorized to access template preferences."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(value = "{preference}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @XapiRequestMapping(value = "{preference}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<String> getPreferenceValue(@ApiParam(value = "The template preference to retrieve.", required = true) @PathVariable final String preference) {
         final HttpStatus status = isPermitted();
         if (status != null) {
@@ -73,7 +74,7 @@ public class TemplatePrefsApi extends AbstractXapiRestController {
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 403, message = "Not authorized to access template preferences."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @RequestMapping(value = "{preference}", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @XapiRequestMapping(value = "{preference}", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public ResponseEntity<Void> setPreferenceValue(@ApiParam(value = "The template preference to set.", required = true) @PathVariable final String preference,
                                                    @ApiParam(value = "The template preference to set.", required = true) @RequestBody final String value) {
         final HttpStatus status = isPermitted();
