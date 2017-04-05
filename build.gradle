@@ -34,7 +34,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.nrg.xnat.build:xnat-data-builder:1.7.2"
+        classpath "org.nrg.xnat.build:xnat-data-builder:1.7.3-SNAPSHOT"
     }
 }
 
