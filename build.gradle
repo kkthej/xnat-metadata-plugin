@@ -9,17 +9,12 @@
 
 import org.gradle.internal.jvm.Jvm
 
-// TODO: Change the group and version to values appropriate for your plugin project.
-group 'org.nrg.xnat.plugins'
-version '1.0.0-SNAPSHOT'
-
-// TODO: This is the minimum set of Gradle plugins required to build most XNAT plugins. You may include many others, including plugins for testing and test coverage, IDE integration, and more.
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'xnat-data-builder'
-
 // TODO: This block is required for the 'xnat-data-builder' plugin to function.
 buildscript {
+    ext {
+        vXnatDev = '1.7.3-SNAPSHOT'
+        vXnat = '1.7.2'
+    }
     repositories {
         mavenLocal()
         mavenCentral()
@@ -34,9 +29,25 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.nrg.xnat.build:xnat-data-builder:1.7.3-SNAPSHOT"
+        classpath "org.nrg.xnat.build:xnat-data-builder:${vXnatDev}"
     }
 }
+
+// TODO: Keeping your versions as variables makes it easier to update versions when you have multiple libraries from the same framework that thus have the same version.
+// TODO: These versions will change over time as XNAT development continues. Check the latest version of the XNAT template plugin or the XNAT versioning matrix page.
+def vJunit = '4.12'
+def vSpring = '4.2.9.RELEASE'
+def vLog4j = '1.2.17'
+def vSwagger = '2.4.0'
+
+// TODO: Change the group and version to values appropriate for your plugin project.
+group 'org.nrg.xnat.plugins'
+version '1.0.0-SNAPSHOT'
+
+// TODO: This is the minimum set of Gradle plugins required to build most XNAT plugins. You may include many others, including plugins for testing and test coverage, IDE integration, and more.
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'xnat-data-builder'
 
 // TODO: As of the 1.7.x release, XNAT is built as a Java 7-compatible (i.e. JDK 1.7) application. All plugins must be 1.7 compatible as well.
 sourceCompatibility = 1.7
@@ -99,15 +110,6 @@ repositories {
         name 'XNAT External Release Repository'
     }
 }
-
-// TODO: Keeping your versions as variables makes it easier to update versions when you have multiple libraries from the same framework that thus have the same version.
-// TODO: These versions will change over time as XNAT development continues. Check the latest version of the XNAT template plugin or the XNAT versioning matrix page.
-def vXnatDev = '1.7.3-SNAPSHOT'
-def vXnat = '1.7.2'
-def vJunit = '4.12'
-def vSpring = '4.2.9.RELEASE'
-def vLog4j = '1.2.17'
-def vSwagger = '2.4.0'
 
 // TODO: This is a pretty minimal set of dependencies, so don't worry if you need to add more.
 dependencies {
