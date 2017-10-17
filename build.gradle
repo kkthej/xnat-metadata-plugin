@@ -12,7 +12,7 @@ import org.gradle.internal.jvm.Jvm
 // TODO: This block is required for the 'xnat-data-builder' plugin to function.
 buildscript {
     ext {
-        vXnat = '1.7.4-SNAPSHOT'
+        vXnat = '1.7.4'
     }
     repositories {
         mavenLocal()
@@ -89,10 +89,13 @@ dependencies {
     implementation "org.nrg:prefs"
     implementation "org.nrg:framework"
 
-    implementation(group: 'turbine', name: 'turbine', version: '2.3.3') {
+    implementation("turbine:turbine") {
         transitive = false
     }
-    implementation(group: 'org.apache.velocity', name: 'velocity', version: '1.7') {
+    implementation("org.apache.velocity:velocity") {
+        transitive = false
+    }
+    implementation("stratum:stratum") {
         transitive = false
     }
 
@@ -112,7 +115,7 @@ if (javaVersion.java8Compatible || javaVersion.java9Compatible) {
             tasks.withType(JavaCompile) {
                 options.fork = true
                 options.compilerArgs << "-XDignore.symbol.file"
-                options.bootClasspath = rt17jar
+                options.bootClasspath = rt17jar as String
             }
         }
     } else {
