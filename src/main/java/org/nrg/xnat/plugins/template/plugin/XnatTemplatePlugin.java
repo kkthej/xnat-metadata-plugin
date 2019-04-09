@@ -18,8 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+@Configuration
 @XnatPlugin(value = "templatePlugin", name = "XNAT 1.7 Template Plugin", entityPackages = "org.nrg.xnat.plugins.template.entities",
         dataModels = @XnatDataModel(value = TemplateSampleBean.SCHEMA_ELEMENT_NAME,
                 singular = "Template",
@@ -35,7 +37,7 @@ public class XnatTemplatePlugin {
     }
 
     @Bean
-    public CompositeDicomObjectIdentifier projectXnat02Identifier(final JdbcTemplate template) {
+    public CompositeDicomObjectIdentifier projectXnat02Identifier(final NamedParameterJdbcTemplate template) {
         return new FixedProjectSubjectDicomObjectIdentifier(template, "XNAT_02", "XNAT_02_01");
     }
 

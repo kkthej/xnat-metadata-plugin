@@ -14,7 +14,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.nrg.framework.annotations.XapiRestController;
+import org.nrg.xapi.authorization.GuestUserAccessXapiAuthorization;
 import org.nrg.xapi.rest.AbstractXapiRestController;
+import org.nrg.xapi.rest.AuthDelegate;
 import org.nrg.xapi.rest.XapiRequestMapping;
 import org.nrg.xdat.security.services.RoleHolder;
 import org.nrg.xdat.security.services.UserManagementServiceI;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
+import static org.nrg.xdat.security.helpers.AccessLevel.Authorizer;
+
 @Api(description = "XNAT 1.7 Template Plugin API")
 @XapiRestController
 @RequestMapping(value = "/template/entities")
@@ -45,7 +49,8 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Templates successfully retrieved."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET, restrictTo = Authorizer)
+    @AuthDelegate(GuestUserAccessXapiAuthorization.class)
     public ResponseEntity<List<Template>> getEntities() {
         return new ResponseEntity<>(_templateService.getAll(), HttpStatus.OK);
     }
@@ -54,7 +59,8 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully created."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST)
+    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST, restrictTo = Authorizer)
+    @AuthDelegate(GuestUserAccessXapiAuthorization.class)
     public ResponseEntity<Template> createEntity(@RequestBody final Template entity) {
         final Template created = _templateService.create(entity);
         return new ResponseEntity<>(created, HttpStatus.OK);
@@ -66,7 +72,8 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully retrieved."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET, restrictTo = Authorizer)
+    @AuthDelegate(GuestUserAccessXapiAuthorization.class)
     public ResponseEntity<Template> getEntity(@PathVariable final String id) {
         return new ResponseEntity<>(_templateService.findByTemplateId(id), HttpStatus.OK);
     }
@@ -77,7 +84,8 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully updated."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.PUT)
+    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.PUT, restrictTo = Authorizer)
+    @AuthDelegate(GuestUserAccessXapiAuthorization.class)
     public ResponseEntity<Void> updateEntity(@PathVariable final Long id, @RequestBody final Template entity) {
         final Template existing = _templateService.retrieve(id);
         existing.setTemplateId(entity.getTemplateId());
@@ -91,7 +99,8 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully deleted."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.DELETE)
+    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.DELETE, restrictTo = Authorizer)
+    @AuthDelegate(GuestUserAccessXapiAuthorization.class)
     public ResponseEntity<Void> deleteEntity(@PathVariable final Long id) {
         final Template existing = _templateService.retrieve(id);
         _templateService.delete(existing);

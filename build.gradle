@@ -1,7 +1,7 @@
 /*
  * xnat-template: build.gradle
  * XNAT http://www.xnat.org
- * Copyright (c) 2017, Washington University School of Medicine
+ * Copyright (c) 2019, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -12,12 +12,15 @@ import org.gradle.internal.jvm.Jvm
 // TODO: This block is required for the 'xnat-data-builder' plugin to function.
 buildscript {
     ext {
-        vXnat = '1.7.4'
+        vXnat = '1.7.5.3'
     }
     repositories {
         mavenLocal()
-        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
         jcenter()
+        mavenCentral()
         maven {
             url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
             name 'XNAT Release Repository'
@@ -28,14 +31,22 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.nrg.xnat.build:xnat-data-builder:${vXnat}"
         classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
+        classpath ("org.nrg.xnat.build:xnat-data-builder:1.7.5"){
+            exclude group:'torque'
+        }
+        classpath ("org.nrg.xnat:web:${vXnat}"){
+            exclude group: '*'
+        }
     }
 }
 
 // TODO: Change the group and version to values appropriate for your plugin project.
-group 'org.nrg.xnat.plugins'
-version '1.0.0-SNAPSHOT'
+def groupName = 'org.nrg.xnat.plugins'
+def pluginVersion = '1.0.0-SNAPSHOT'
+
+group groupName
+version pluginVersion
 
 // TODO: This is the minimum set of Gradle plugins required to build most XNAT plugins. You may include many others, including plugins for testing and test coverage, IDE integration, and more.
 apply plugin: 'io.spring.dependency-management'
@@ -47,12 +58,16 @@ apply plugin: 'xnat-data-builder'
 // TODO: This provides access to all of these repositories for dependency resolution.
 repositories {
     mavenLocal()
-    mavenCentral()
-    jcenter()
+    maven {
+        url "http://maven.imagej.net/content/groups/public"
+        name "ImageJ Maven Repository"
+    }
     maven {
         url 'http://dcm4che.org/maven2'
         name 'dcm4che Maven Repository'
     }
+    jcenter()
+    mavenCentral()
     maven {
         url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
         name 'XNAT Release Repository'
@@ -130,6 +145,7 @@ jacoco {
 }
 
 jacocoTestReport {
+    dependsOn test
     reports {
         xml.enabled = false
         csv.enabled = false
