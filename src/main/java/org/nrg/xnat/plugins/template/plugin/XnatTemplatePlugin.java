@@ -33,11 +33,11 @@ public class XnatTemplatePlugin {
     public XnatTemplatePlugin() {
         log.info("Creating the XnatTemplatePlugin configuration class");
     }
-
-    @Bean
-    public CompositeDicomObjectIdentifier projectXnat02Identifier(final NamedParameterJdbcTemplate template) {
-        return new FixedProjectSubjectDicomObjectIdentifier(template, "XNAT_02", "XNAT_02_01");
-    }
+//
+//    @Bean
+//    public CompositeDicomObjectIdentifier projectXnat02Identifier(final NamedParameterJdbcTemplate template) {
+//        return new FixedProjectSubjectDicomObjectIdentifier(template, "XNAT_02", "XNAT_02_01");
+//    }
 
     @Bean
     public String templatePluginMessage() {
