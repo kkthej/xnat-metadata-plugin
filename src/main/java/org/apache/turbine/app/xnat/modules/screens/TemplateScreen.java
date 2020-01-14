@@ -1,7 +1,7 @@
 /*
  * xnat-template: org.apache.turbine.app.xnat.modules.screens.TemplateScreen
  * XNAT http://www.xnat.org
- * Copyright (c) 2017, Washington University School of Medicine
+ * Copyright (c) 2020, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.

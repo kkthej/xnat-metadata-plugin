@@ -1,7 +1,7 @@
 /*
  * xnat-template: build.gradle
  * XNAT http://www.xnat.org
- * Copyright (c) 2017, Washington University School of Medicine
+ * Copyright (c) 2020, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -12,31 +12,34 @@ import org.gradle.internal.jvm.Jvm
 // TODO: This block is required for the "xnat-data-builder" plugin to function.
 buildscript {
     ext {
-        vXnat = "1.7.6-SNAPSHOT"
+        vXnat = "1.7.6"
     }
     repositories {
         mavenLocal()
-        maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
         jcenter()
+        gradlePluginPortal()
         maven { url "https://nrgxnat.jfrog.io/nrgxnat/libs-release" }
         maven { url "https://nrgxnat.jfrog.io/nrgxnat/libs-snapshot" }
     }
     dependencies {
         classpath "org.nrg.xnat.build:xnat-data-builder:${vXnat}"
-        classpath "io.franzbecker:gradle-lombok:3.1.0"
+        classpath "io.franzbecker:gradle-lombok:3.2.0"
         classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
     }
 }
 
 // TODO: Change the group and version to values appropriate for your plugin project.
-group "org.nrg.xnat.plugins"
+// NOTE: You should not leave the group value set to "org.nrg.xnatx.plugins"! Use
+//       something to indicate who developed the plugin and follow the standard
+//       Maven naming conventions: https://maven.apache.org/guides/mini/guide-naming-conventions.html
+//       For example, if a group at Miskatonic University developed a plugin, the
+//       group might be "edu.miskatonic.imaging.xnat".
+group "org.nrg.xnatx.plugins"
 version vXnat
 
 // TODO: This is the minimum set of Gradle plugins required to build most XNAT plugins. You may include many others, including plugins for testing and test coverage, IDE integration, and more.
 apply plugin: "java"
-apply plugin: "maven"
-apply plugin: "jacoco"
 apply plugin: "xnat-data-builder"
 apply plugin: "io.franzbecker.gradle-lombok"
 apply plugin: "io.spring.dependency-management"
@@ -44,7 +47,7 @@ apply plugin: "io.spring.dependency-management"
 // TODO: This provides access to all of these repositories for dependency resolution.
 repositories {
     mavenLocal()
-    maven { url "https://www.dcm4che.org/maven2/" }
+    maven { url "https://www.dcm4che.org/maven2" }
     jcenter()
     mavenCentral()
     maven { url "https://nrgxnat.jfrog.io/nrgxnat/libs-release" }
@@ -55,11 +58,14 @@ repositories {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+// TODO: This defines a dependency package, specifically the XNAT NRG parent pom, which specifies
+//       versions for all of XNAT's dependencies. This helps ensure that plugins are building
+//       against the same versions of various libraries as XNAT itself.
 dependencyManagement.imports {
     mavenBom "org.nrg:parent:${vXnat}"
 }
 
-// TODO: This is a pretty minimal set of dependencies, so don"t worry if you need to add more.
+// TODO: This is a pretty minimal set of dependencies, so don't worry if you need to add more.
 dependencies {
     implementation "org.nrg.xnat:web"
     implementation "org.nrg.xnat:xnat-data-models"
@@ -94,20 +100,7 @@ if (javaVersion.java8Compatible || javaVersion.java9Compatible) {
     }
 }
 
-// TODO: This configures the Jacoco test coverage plugin.
-jacoco {
-    toolVersion = dependencyManagement.importedProperties["jacoco.version"]
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled = false
-        csv.enabled = false
-        html.destination file("${buildDir}/jacocoHtml")
-    }
-}
-
-// TODO: This tells the compiler where to find source code. This isn"t required in a standard build, but the XNAT data builder generates code from XNAT data-type schemas that the compiler needs to know about.
+// TODO: This tells the compiler where to find source code. This isn't required in a standard build, but the XNAT data builder generates code from XNAT data-type schemas that the compiler needs to know about.
 sourceSets {
     main {
         java {

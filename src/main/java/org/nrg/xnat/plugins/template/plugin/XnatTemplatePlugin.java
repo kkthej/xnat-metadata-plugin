@@ -1,7 +1,7 @@
 /*
  * xnat-template: org.nrg.xnat.plugins.template.plugin.XnatTemplatePlugin
  * XNAT http://www.xnat.org
- * Copyright (c) 2017, Washington University School of Medicine
+ * Copyright (c) 2020, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -33,11 +33,6 @@ public class XnatTemplatePlugin {
     public XnatTemplatePlugin() {
         log.info("Creating the XnatTemplatePlugin configuration class");
     }
-//
-//    @Bean
-//    public CompositeDicomObjectIdentifier projectXnat02Identifier(final NamedParameterJdbcTemplate template) {
-//        return new FixedProjectSubjectDicomObjectIdentifier(template, "XNAT_02", "XNAT_02_01");
-//    }
 
     @Bean
     public String templatePluginMessage() {
