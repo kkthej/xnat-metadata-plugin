@@ -1,7 +1,7 @@
 /*
  * xnat-template: org.apache.turbine.app.xnat.modules.screens.TemplateScreen
  * XNAT http://www.xnat.org
- * Copyright (c) 2017, Washington University School of Medicine
+ * Copyright (c) 2020, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -9,6 +9,7 @@
 
 package org.apache.turbine.app.xnat.modules.screens;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.turbine.util.RunData;
 import org.apache.velocity.context.Context;
 import org.nrg.xdat.turbine.modules.screens.SecureScreen;
@@ -16,10 +17,11 @@ import org.nrg.xdat.turbine.modules.screens.SecureScreen;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
 @SuppressWarnings("unused")
 public class TemplateScreen extends SecureScreen {
     @Override
-    protected void doBuildTemplate(RunData data, Context context) throws Exception {
+    protected void doBuildTemplate(final RunData data, final Context context) {
         context.put("dateTime", DATE_FORMAT.format(new Date()));
     }
 

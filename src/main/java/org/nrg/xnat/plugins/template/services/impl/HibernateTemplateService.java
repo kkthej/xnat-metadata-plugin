@@ -1,7 +1,7 @@
 /*
  * xnat-template: org.nrg.xnat.plugins.template.services.impl.HibernateTemplateService
  * XNAT http://www.xnat.org
- * Copyright (c) 2017, Washington University School of Medicine
+ * Copyright (c) 2020, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -9,6 +9,7 @@
 
 package org.nrg.xnat.plugins.template.services.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.nrg.framework.orm.hibernate.AbstractHibernateEntityService;
 import org.nrg.xnat.plugins.template.entities.Template;
 import org.nrg.xnat.plugins.template.repositories.TemplateRepository;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Manages {@link Template} data objects in Hibernate.
  */
 @Service
+@Slf4j
 public class HibernateTemplateService extends AbstractHibernateEntityService<Template, TemplateRepository> implements TemplateService {
     /**
      * {@inheritDoc}
@@ -27,6 +29,7 @@ public class HibernateTemplateService extends AbstractHibernateEntityService<Tem
     @Transactional
     @Override
     public Template findByTemplateId(final String templateId) {
+        log.trace("Requested template with ID \"{}\"", templateId);
         return getDao().findByUniqueProperty("templateId", templateId);
     }
 }
