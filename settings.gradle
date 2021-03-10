@@ -7,5 +7,21 @@
  * Released under the Simplified BSD.
  */
 
-// TODO: Replace this with your project name. The project name should indicate the function of the plugin.
+// TODO: This tells Gradle where it can look for plugins that may be referenced
+//       by your build.
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        mavenCentral()
+        maven { url "https://nrgxnat.jfrog.io/nrgxnat/gradle-plugins-release" }
+        maven { url "https://nrgxnat.jfrog.io/nrgxnat/gradle-plugins-snapshot" }
+        maven { url "https://nrgxnat.jfrog.io/nrgxnat/libs-release" }
+        maven { url "https://nrgxnat.jfrog.io/nrgxnat/libs-snapshot" }
+    }
+}
+
+// TODO: Replace this with your project name. The project name should indicate
+//       the function of the plugin.
 rootProject.name = "xnat-template"
+
