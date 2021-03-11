@@ -1,4 +1,15 @@
+#*																			*#
+#* xnat-template-plugin: TemplateScreen.xsd									*#
+#* XNAT https://www.xnat.org												*#
+#* Copyright (c) 2005-2021, Washington University School of Medicine       	*#
+#* All Rights Reserved														*#
+#*																			*#
+#* Released under the Simplified BSD.										*#
+#*																			*#
 #* @vtlvariable name="dateTime" type="java.lang.String" *#
+#* @vtlvariable name="page" type="org.apache.turbine.util.template.HtmlPageAttributes" *#
+#* @vtlvariable name="ui" type="org.apache.turbine.services.pull.util.UIManager" *#
+<!-- BEGIN META-INF/resources/templates/screens/TemplateScreen.vm -->
 $page.setTitle("Template Screen")
 $page.setLinkColor($ui.alink)
 $page.setVlinkColor($ui.vlink)
@@ -21,3 +32,4 @@ $page.setVlinkColor($ui.vlink)
 		</td>
 	</tr>
 </table>
+<!-- END META-INF/resources/templates/screens/TemplateScreen.vm -->

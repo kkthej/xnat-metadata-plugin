@@ -1,7 +1,7 @@
 /*
- * xnat-template: org.nrg.xnat.plugins.template.services.impl.HibernateTemplateService
- * XNAT http://www.xnat.org
- * Copyright (c) 2020, Washington University School of Medicine
+ * xnat-template-plugin: org.nrg.xnat.plugins.template.services.impl.HibernateTemplateService
+ * XNAT https://www.xnat.org
+ * Copyright (c) 2005-2021, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -29,7 +29,7 @@ public class HibernateTemplateService extends AbstractHibernateEntityService<Tem
     @Transactional
     @Override
     public Template findByTemplateId(final String templateId) {
-        log.trace("Requested template with ID \"{}\"", templateId);
+        log.trace("Requested template with ID {}", templateId);
         return getDao().findByUniqueProperty("templateId", templateId);
     }
 }

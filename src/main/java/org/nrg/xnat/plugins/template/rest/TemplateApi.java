@@ -1,7 +1,7 @@
 /*
- * xnat-template: org.nrg.xnat.plugins.template.rest.TemplateApi
- * XNAT http://www.xnat.org
- * Copyright (c) 2020, Washington University School of Medicine
+ * xnat-template-plugin: org.nrg.xnat.plugins.template.rest.TemplateApi
+ * XNAT https://www.xnat.org
+ * Copyright (c) 2005-2021, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@Api
+@Api("Template API")
 @XapiRestController
 @RequestMapping(value = "/template/entities")
 @Slf4j
@@ -46,7 +46,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Templates successfully retrieved."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @XapiRequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public List<Template> getEntities() {
         return _templateService.getAll();
     }
@@ -55,7 +55,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully created."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST)
+    @XapiRequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public Template createEntity(@RequestBody final Template entity) {
         return _templateService.create(entity);
     }
@@ -66,7 +66,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully retrieved."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @XapiRequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public Template getEntity(@PathVariable final String id) throws NotFoundException {
         if (!_templateService.exists("templateId", id)) {
             throw new NotFoundException("No template with the ID \"" + id + "\" was found.");
@@ -80,7 +80,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully updated."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.PUT)
+    @XapiRequestMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     public long updateEntity(@PathVariable final Long id, @RequestBody final Template entity) throws NotFoundException {
         if (!_templateService.exists("templateId", id)) {
             throw new NotFoundException("No template with the ID \"" + id + "\" was found.");
@@ -97,7 +97,7 @@ public class TemplateApi extends AbstractXapiRestController {
     @ApiResponses({@ApiResponse(code = 200, message = "Template successfully deleted."),
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.DELETE)
+    @XapiRequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public long deleteEntity(@PathVariable final Long id) {
         final Template existing = _templateService.retrieve(id);
         _templateService.delete(existing);

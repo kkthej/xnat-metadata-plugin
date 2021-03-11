@@ -1,7 +1,7 @@
 /*
- * xnat-template: org.nrg.xnat.plugins.template.preferences.TemplatePreferencesBean
- * XNAT http://www.xnat.org
- * Copyright (c) 2020, Washington University School of Medicine
+ * xnat-template-plugin: org.nrg.xnat.plugins.template.preferences.TemplatePreferencesBean
+ * XNAT https://www.xnat.org
+ * Copyright (c) 2005-2021, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -11,6 +11,7 @@ package org.nrg.xnat.plugins.template.preferences;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nrg.framework.configuration.ConfigPaths;
+import org.nrg.framework.utilities.OrderedProperties;
 import org.nrg.prefs.annotations.NrgPreference;
 import org.nrg.prefs.annotations.NrgPreferenceBean;
 import org.nrg.prefs.beans.AbstractPreferenceBean;
@@ -24,8 +25,8 @@ import java.util.List;
 @Slf4j
 public class TemplatePreferencesBean extends AbstractPreferenceBean {
     @Autowired
-    public TemplatePreferencesBean(final NrgPreferenceService preferenceService, final ConfigPaths configFolderPaths) {
-        super(preferenceService, configFolderPaths);
+    public TemplatePreferencesBean(final NrgPreferenceService preferenceService, final ConfigPaths configFolderPaths, final OrderedProperties orderedProperties) {
+        super(preferenceService, configFolderPaths, orderedProperties);
     }
 
     @NrgPreference(defaultValue = "['Standard']")

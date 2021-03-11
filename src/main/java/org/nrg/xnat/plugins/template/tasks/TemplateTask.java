@@ -1,3 +1,12 @@
+/*
+ * xnat-template-plugin: org.nrg.xnat.plugins.template.tasks.TemplateTask
+ * XNAT https://www.xnat.org
+ * Copyright (c) 2005-2021, Washington University School of Medicine
+ * All Rights Reserved
+ *
+ * Released under the Simplified BSD.
+ */
+
 package org.nrg.xnat.plugins.template.tasks;
 
 import lombok.extern.slf4j.Slf4j;

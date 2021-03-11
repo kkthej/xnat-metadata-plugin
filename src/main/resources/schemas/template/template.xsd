@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ xnat-template: xnat-template-plugin/src/main/resources/schemas/template/template.xsd
-  ~ XNAT http://www.xnat.org
-  ~ Copyright (c) 2020, Washington University School of Medicine
+  ~ xnat-template-plugin: template.xsd
+  ~ XNAT https://www.xnat.org
+  ~ Copyright (c) 2005-2021, Washington University School of Medicine
   ~ All Rights Reserved
   ~
   ~ Released under the Simplified BSD.
@@ -25,14 +25,14 @@
 
 	<xs:complexType name="sample">
 		<xs:annotation>
-			<xs:documentation>A very simple sample data type.</xs:documentation>
+			<xs:documentation>A very simple sample data type that indicates whether a subject consented to participate in a study.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="xnat:mrAssessorData">
+			<xs:extension base="xnat:subjectAssessorData">
 				<xs:sequence>
-					<xs:element name="pass">
+					<xs:element name="consented">
 						<xs:annotation>
-							<xs:documentation>Indicates whether the image passed or not.</xs:documentation>
+							<xs:documentation>Indicates whether the subject consented to participate.</xs:documentation>
 						</xs:annotation>
 						<xs:simpleType>
 							<xs:restriction base="xs:boolean"/>

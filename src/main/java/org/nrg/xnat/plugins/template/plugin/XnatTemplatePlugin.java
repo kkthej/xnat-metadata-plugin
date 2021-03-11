@@ -1,7 +1,7 @@
 /*
- * xnat-template: org.nrg.xnat.plugins.template.plugin.XnatTemplatePlugin
- * XNAT http://www.xnat.org
- * Copyright (c) 2020, Washington University School of Medicine
+ * xnat-template-plugin: org.nrg.xnat.plugins.template.plugin.XnatTemplatePlugin
+ * XNAT https://www.xnat.org
+ * Copyright (c) 2005-2021, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -10,20 +10,17 @@
 package org.nrg.xnat.plugins.template.plugin;
 
 import lombok.extern.slf4j.Slf4j;
-import org.nrg.dcm.id.CompositeDicomObjectIdentifier;
-import org.nrg.dcm.id.FixedProjectSubjectDicomObjectIdentifier;
 import org.nrg.framework.annotations.XnatDataModel;
 import org.nrg.framework.annotations.XnatPlugin;
 import org.nrg.xdat.bean.TemplateSampleBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @XnatPlugin(value = "templatePlugin", name = "XNAT 1.7 Template Plugin", entityPackages = "org.nrg.xnat.plugins.template.entities",
         dataModels = @XnatDataModel(value = TemplateSampleBean.SCHEMA_ELEMENT_NAME,
-                singular = "Template",
-                plural = "Templates",
-                code = "TM"))
+                singular = "Sample",
+                plural = "Samples",
+                code = "TS"))
 @ComponentScan({"org.nrg.xnat.plugins.template.preferences",
                 "org.nrg.xnat.plugins.template.repositories",
                 "org.nrg.xnat.plugins.template.rest",

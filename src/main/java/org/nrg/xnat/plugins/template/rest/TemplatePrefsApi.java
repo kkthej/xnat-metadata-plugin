@@ -1,7 +1,7 @@
 /*
- * xnat-template: org.nrg.xnat.plugins.template.rest.TemplatePrefsApi
- * XNAT http://www.xnat.org
- * Copyright (c) 2020, Washington University School of Medicine
+ * xnat-template-plugin: org.nrg.xnat.plugins.template.rest.TemplatePrefsApi
+ * XNAT https://www.xnat.org
+ * Copyright (c) 2005-2021, Washington University School of Medicine
  * All Rights Reserved
  *
  * Released under the Simplified BSD.
@@ -32,7 +32,7 @@ import java.util.Map;
 import static org.nrg.framework.exceptions.NrgServiceError.ConfigurationError;
 import static org.nrg.xdat.security.helpers.AccessLevel.Authenticated;
 
-@Api
+@Api("Template Preferences API")
 @XapiRestController
 @RequestMapping(value = "/template/prefs")
 @Slf4j
@@ -71,7 +71,7 @@ public class TemplatePrefsApi extends AbstractXapiRestController {
                    @ApiResponse(code = 401, message = "Must be authenticated to access the XNAT REST API."),
                    @ApiResponse(code = 403, message = "Not authorized to access template preferences."),
                    @ApiResponse(code = 500, message = "Unexpected error")})
-    @XapiRequestMapping(value = "{preference}", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT, restrictTo = Authenticated)
+    @XapiRequestMapping(value = "{preference}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT, restrictTo = Authenticated)
     public String setPreferenceValue(@ApiParam(value = "The template preference to set.", required = true) @PathVariable final String preference,
                                      @ApiParam(value = "The template preference to set.", required = true) @RequestBody final String value) throws NotFoundException, NrgServiceException {
         if (!_templatePrefs.containsKey(preference)) {
