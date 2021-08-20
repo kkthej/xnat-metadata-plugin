@@ -9,28 +9,24 @@
 
 package org.unicorn.xnatx.plugin;
 
-import org.unicorn.xnatx.listeners.DefaultEventServiceListener;
-
 import lombok.extern.slf4j.Slf4j;
 import org.nrg.config.services.ConfigService;
 import org.nrg.framework.annotations.XnatPlugin;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan.Filter;
 
 @XnatPlugin(value = "Plugin102", name = "XNAT Plugin 102",
 	logConfigurationFile = "META-INF/resources/plugin-102-logback.xml")
+@ComponentScan(value = "org.unicorn.xnatx.actions",
+        excludeFilters = @Filter(type = FilterType.REGEX, pattern = ".*TestConfig.*", value = {}))
 @Slf4j
 public class Plugin102 {
-//    static final Logger log = LoggerFactory.getLogger(Plugin102.class);
-    DefaultEventServiceListener defaultEventServiceListener = null;
 
     public Plugin102() {
         log.error("Creating the Plugin102 configuration class (logging as ERROR)");
         log.warn("Creating the Plugin102 configuration class (logging as WARN)");
         log.info("Creating the Plugin102 configuration class (logging as INFO)");
 
-        defaultEventServiceListener = new DefaultEventServiceListener();
-        log.error("Created a DefaultEventServiceListener object (logging as ERROR)");
     }
 
     @Bean
