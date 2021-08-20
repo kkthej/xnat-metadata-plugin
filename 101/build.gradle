@@ -24,7 +24,7 @@ plugins {
     id "org.nrg.xnat.build.xnat-data-builder" version "1.8.2"
 }
 
-version "7.8.9"
+version "0.1.0"
 description "XNAT Plugin 101"
 
 // TODO: This provides access to all of these repositories for dependency resolution.
