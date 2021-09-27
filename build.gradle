@@ -9,7 +9,7 @@
 
 buildscript {
     ext {
-        vXnat = "1.8.2"
+        vXnat = "1.8.3"
     }
 }
 
@@ -22,7 +22,7 @@ plugins {
     id "com.palantir.git-version" version "0.12.1"
     id "io.franzbecker.gradle-lombok" version "4.0.0"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
-    id "org.nrg.xnat.build.xnat-data-builder" version "1.8.2"
+    id "org.nrg.xnat.build.xnat-data-builder" version "1.8.3"
 }
 
 // TODO: Change the group and version to values appropriate for your plugin project.
@@ -32,8 +32,8 @@ plugins {
 //       For example, if a group at Miskatonic University developed a plugin, the
 //       group might be "edu.miskatonic.imaging.xnat".
 group "org.nrg.xnatx.plugins"
-version "1.8.2"
-description "This project provides a template for developing a plugin for XNAT 1.8"
+version "1.0.0-SNAPSHOT"
+description "XNAT Template Plugin for XNAT 1.8"
 
 // TODO: This provides access to all of these repositories for dependency resolution.
 repositories {
@@ -47,7 +47,7 @@ repositories {
 //       versions for all of XNAT's dependencies. This helps ensure that plugins are building
 //       against the same versions of various libraries as XNAT itself.
 dependencyManagement.imports {
-    mavenBom "org.nrg:parent:${project.version}"
+    mavenBom "org.nrg:parent:${vXnat}"
 }
 
 // TODO: This is a pretty minimal set of dependencies, so don't worry if you need to add more.
@@ -82,68 +82,6 @@ dependencies {
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     testRuntimeOnly "ch.qos.logback:logback-classic"
-}
-
-// TODO: This configures the compileJava task to call the xnatDataBuilder task before
-//       trying to compile any Java code in the plugin. If your plugin includes one or
-//       more custom data types, you'll need to generate source code for those datatypes
-//       before you can use them in your Java code.
-compileJava.dependsOn project.tasks["xnatDataBuilder"]
-
-configurations {
-    all {
-        exclude group: "junit"
-        exclude group: "net.logstash.logback"
-        exclude group: "org.nrg.xnat.pipeline"
-        exclude group: "org.slf4j", module: "jcl-over-slf4j"
-        exclude group: "org.slf4j", module: "log4j-over-slf4j"
-        exclude group: "org.slf4j", module: "slf4j-log4j12"
-        exclude group: "org.slf4j", module: "slf4j-simple"
-    }
-    implementation.extendsFrom(implementAndInclude)
-}
-
-lombok {
-    version = dependencyManagement.importedProperties["lombok.version"] as String
-    sha256 = dependencyManagement.importedProperties["lombok.checksum"] as String
-}
-
-jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.enabled = false
-        csv.enabled = true
-        html.enabled = true
-    }
-}
-
-java {
-    // TODO: As of the 1.8.x release, XNAT is built as a Java 8-compatible (i.e. JDK 1.8)
-    //       application. All plugins must be 1.8 compatible as well. This does NOT mean
-    //       the code must be compiled with Java 8, just that the compiled byte code must
-    //       be compatible with running in a Java 8 environment.
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-// TODO: This tells the compiler where to find source code. This isn't required in a
-//       standard build, but the XNAT data builder generates code from XNAT data-type
-//       schemas that the compiler needs to know about.
-sourceSets {
-    main {
-        java {
-            srcDir "build/xnat-generated/src/main/java"
-        }
-        resources {
-            srcDir "build/xnat-generated/src/main/resources"
-            exclude {
-                // TODO: Schema files get copied over to the generated source folder, which
-                //       results in duplicate entries for those files in the plugin jar file.
-                //       This exclusion filters those duplicates out.
-                "build/xnat-generated/src/main/resources/schemas/**/*.xsd"
-            }
-        }
-    }
 }
 
 // Pulls in the Jenkins BUILD_NUMBER environment variable if available.
@@ -200,7 +138,50 @@ Building artifacts with manifest attributes:
  * Implementation-Dirty:    ${isDirty}
 """
 
-task sourceJar(type: Jar, dependsOn: classes) {
+// TODO: This configures the compileJava task to call the xnatDataBuilder task before
+//       trying to compile any Java code in the plugin. If your plugin includes one or
+//       more custom data types, you'll need to generate source code for those datatypes
+//       before you can use them in your Java code.
+compileJava.dependsOn project.tasks["xnatDataBuilder"]
+
+configurations {
+    all {
+        exclude group: "junit"
+        exclude group: "net.logstash.logback"
+        exclude group: "org.nrg.xnat.pipeline"
+        exclude group: "org.slf4j", module: "jcl-over-slf4j"
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        exclude group: "org.slf4j", module: "slf4j-log4j12"
+        exclude group: "org.slf4j", module: "slf4j-simple"
+    }
+    implementation.extendsFrom(implementAndInclude)
+}
+
+lombok {
+    version = dependencyManagement.importedProperties["lombok.version"] as String
+    sha256 = dependencyManagement.importedProperties["lombok.checksum"] as String
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = false
+        csv.required = true
+        html.required = true
+    }
+}
+
+java {
+    // TODO: As of the 1.8.x release, XNAT is built as a Java 8-compatible (i.e. JDK 1.8)
+    //       application. All plugins must be 1.8 compatible as well. This does NOT mean
+    //       the code must be compiled with Java 8, just that the compiled byte code must
+    //       be compatible with running in a Java 8 environment.
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// TODO: This builds a sources jar that pulls in the manifest with VCS info from above.
+task sourcesJar(type: Jar, dependsOn: classes) {
     classifier "sources"
     manifest {
         from gitManifest
@@ -208,6 +189,7 @@ task sourceJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+// TODO: This builds a javadoc jar that pulls in the manifest with VCS info from above.
 task javadocJar(type: Jar) {
     classifier "javadoc"
     manifest {
@@ -216,21 +198,28 @@ task javadocJar(type: Jar) {
     from javadoc.destinationDir
 }
 
+// TODO: This builds a regular classes jar that pulls in the manifest with VCS info from above.
+//       For the most part this jar isn't necessary: what you really want is the plugin jar.
 jar {
-    dependsOn test, sourceJar, javadocJar
+    dependsOn test, sourcesJar, javadocJar
     enabled = true
     manifest {
         from gitManifest
     }
 }
 
+// TODO: This builds the XNAT plugin jar that pulls in the manifest with VCS info from above.
+//       This includes all compiled Java classes (including generated classes), any schema
+//       files, JavaScript and Velocity template resources, and the XNAT plugin identifier
+//       properties file, in this case named META-INF/xnat/templatePlugin-plugin.properties.
 task xnatPluginJar(type: Jar) {
-    dependsOn test, sourceJar, javadocJar
+    dependsOn test, sourcesJar, javadocJar
     zip64 true
     archiveClassifier.set "xpl"
     manifest {
         from gitManifest
     }
+
     // files and folders with "-dev" or "--xx" in their name
     // will not be in the compiled jar
     exclude "**/resources/**/*-dev**"
