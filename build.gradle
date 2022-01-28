@@ -11,6 +11,22 @@ buildscript {
     ext {
         vXnat = "1.8.3"
     }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+       //jcenter()
+        maven {
+            url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
+            name 'XNAT Release Repository'
+        }
+        maven {
+            url 'https://nrgxnat.jfrog.io/nrgxnat/libs-snapshot'
+            name 'XNAT Snapshot Repository'
+        }
+    }
+    dependencies {
+        classpath "org.nrg.xnat.build:xnat-data-builder:1.7.2"
+    }
 }
 
 // TODO: This is the minimum set of Gradle plugins required to build most XNAT plugins.
@@ -33,7 +49,7 @@ plugins {
 //       group might be "edu.miskatonic.imaging.xnat".
 group "org.nrg.xnatx.plugins"
 version "1.0.0-SNAPSHOT"
-description "XNAT Template Plugin for XNAT 1.8"
+description "XNAT Metadata Plugin for XNAT 1.8"
 
 // TODO: This provides access to all of these repositories for dependency resolution.
 repositories {
