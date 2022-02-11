@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ xnat-template-plugin: template.xsd
+  ~ XNAT https://www.xnat.org
+  ~ Copyright (c) 2005-2021, Washington University School of Medicine
+  ~ All Rights Reserved
+  ~
+  ~ Released under the Simplified BSD.
+  -->
+
+<!--
+	TODO: You can use this as the basis for an XNAT data-type definition or simply delete it. Note that there are other
+	files related to the data type defined here:
+
+	 - src/main/java/org/apache/turbine/app/xnat/modules/screens/XDATScreen_edit_template_sample.java
+	 - src/main/java/org/apache/turbine/app/xnat/modules/screens/XDATScreen_report_template_sample.java
+	 - src/main/resources/META-INF/resources/templates/screens/XDATScreen_edit_template_sample.vm
+	 - src/main/resources/META-INF/resources/templates/screens/XDATScreen_report_template_sample.vm
+	 - src/main/resources/META-INF/resources/templates/screens/xnat_subjectData/actionsBox/sample.vm
+-->
+<xs:schema targetNamespace="http://nrg.wustl.edu/mbc" 
+           xmlns:mbc="http://nrg.wustl.edu/mbc" 
+           xmlns:xnat="http://nrg.wustl.edu/xnat"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		   elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://nrg.wustl.edu/xnat" schemaLocation="../xnat/xnat.xsd"/>
+	
+	<xs:element name="Xmetadata" type="xnat:xmetadata"/>
+
+	<xs:complexType name="xmetadata">
+		<xs:annotation>
+			<xs:documentation>A very simple sample data type that indicates extra metadata of the study.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="xnat:projectData">
+				<xs:sequence>
+					<xs:element name="institution_name">
+						<xs:annotation>
+							<xs:documentation>Indicates the institution name of the study.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="imaging_facility">
+						<xs:annotation>
+							<xs:documentation>Indicates the imaging facility.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string"/>
+						</xs:simpleType>
+					</xs:element>
+					
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

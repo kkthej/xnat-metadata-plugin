@@ -11,22 +11,7 @@ buildscript {
     ext {
         vXnat = "1.8.3"
     }
-    repositories {
-        mavenLocal()
-        mavenCentral()
-       //jcenter()
-        maven {
-            url 'https://nrgxnat.jfrog.io/nrgxnat/libs-release'
-            name 'XNAT Release Repository'
-        }
-        maven {
-            url 'https://nrgxnat.jfrog.io/nrgxnat/libs-snapshot'
-            name 'XNAT Snapshot Repository'
-        }
-    }
-    dependencies {
-        classpath "org.nrg.xnat.build:xnat-data-builder:1.7.2"
-    }
+    
 }
 
 // TODO: This is the minimum set of Gradle plugins required to build most XNAT plugins.
@@ -68,6 +53,9 @@ dependencyManagement.imports {
 
 // TODO: This is a pretty minimal set of dependencies, so don't worry if you need to add more.
 dependencies {
+    // compile("org.nrg:framework:1.8.0-SNAPSHOT") {
+    //     transitive = false
+    // }
     implementation enforcedPlatform("org.nrg:parent:${vXnat}")
 
     implementation("org.nrg.xnat:web") {
@@ -88,7 +76,7 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui"
 
     compileOnly "log4j:log4j"
-
+    runtimeOnly 'org.postgresql:postgresql'
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "org.springframework:spring-test"
     testImplementation "com.github.sbrannen:spring-test-junit5"

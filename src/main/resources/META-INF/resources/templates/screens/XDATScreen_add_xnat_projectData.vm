@@ -118,27 +118,7 @@ $page.setVlinkColor($ui.vlink)
         var __projRunningTitle = jq(document.getElementById("xnat:projectData/secondary_ID"));
         //kk
         var __metaInstitutionName = jq(document.getElementById("xnat:xmetadata/institution_name"));
-        var __metaStudyName = jq(document.getElementById("xnat:xmetadata/study_name"));
-        var __metaSpecies = jq(document.getElementById("xnat:xmetadata/species"));
-        var __metaGender = jq(document.getElementById("xnat:xmetadata/gender"));
-        var __metaNoOfPatients = jq(document.getElementById("xnat:xmetadata/no_of_patients"));
-        var __metaDiseaseModel = jq(document.getElementById("xnat:xmetadata/disease_model"));
-        var __metaOrgan = jq(document.getElementById("xnat:xmetadata/organ"));
-        var __metaImagingTechnique = jq(document.getElementById("xnat:xmetadata/imaging_technique"));
-        var __metaScannerVendor = jq(document.getElementById("xnat:xmetadata/scanner_vendor"));
-        var __metaTimePoints = jq(document.getElementById("xnat:xmetadata/time_points"));
-
-        var metaInstitutionNameVal = (__metaInstitutionName.val()+'').trim();
-        var metaStudyNameVal = (__metaStudyName.val()+'').trim();
-        var metaSpeciesVal = (__metaSpecies.val()+'').trim();
-        var metaGenderVal = (__metaGender.val()+'').trim();
-        var metaNoOfPatientsVal = (__metaNoOfPatients.val()+'').trim();
-        var metaDiseaseModelVal = (__metaDiseaseModel.val()+'').trim();
-        var metaOrganVal = (__metaOrgan.val()+'').trim();
-        var metaImagingTechniqueVal = (__metaImagingTechnique.val()+'').trim();
-        var metaScannerVendorVal = (__metaScannerVendor.val()+'').trim();
-        var metaTimePointsVal = (__metaTimePoints.val()+'').trim();
-
+        
         //kk
         var projIDVal = (__projID.val()+'').trim();
         var projTitleVal = (__projTitle.val()+'').trim();
@@ -175,51 +155,6 @@ $page.setVlinkColor($ui.vlink)
             __metaInstitutionName.addClass('invalid');
             invalid_count++;
         }
-        if (metaStudyNameVal == '') {
-            xmodal.message('Validation', 'Please enter a Study name.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaSpeciesVal == '') {
-            xmodal.message('Validation', 'Please enter a Species Name.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaGenderVal == '') {
-            xmodal.message('Validation', 'Please enter Gender.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaNoOfPatientsVal == '') {
-            xmodal.message('Validation', 'Please enter the number of patients.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaDiseaseModelVal == '') {
-            xmodal.message('Validation', 'Please enter a Disease Model.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaOrganVal == '') {
-            xmodal.message('Validation', 'Please enter a Organ Name.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaImagingTechniqueVal == '') {
-            xmodal.message('Validation', 'Please enter a Imaging Technique.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaScannerVendorVal == '') {
-            xmodal.message('Validation', 'Please enter a Scanner Vendor.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
-         if (metaTimePointsVal == '') {
-            xmodal.message('Validation', 'Please enter a Time Points.');
-            __projRunningTitle.addClass('invalid');
-            invalid_count++;
-        }
         
         ## Add custom project validation
         #addCustomScreens("xnat:projectData" "edit/validation")
@@ -234,15 +169,7 @@ $page.setVlinkColor($ui.vlink)
             __projTitle.val(projTitleVal);
             __projRunningTitle.val(projRunningTitleVal);
             __metaInstitutionName.val(metaInstitutionNameVal);
-            __metaStudyName.val(metaStudyNameVal);
-            __metaSpecies.val(metaSpeciesVal);
-            __metaGender.val(metaGenderVal);
-            __metaNoOfPatients.val(metaNoOfPatientsVal);
-            __metaDiseaseModel.val(metaDiseaseModelVal);
-            __metaOrgan.val(metaOrganVal);
-            __metaImagingTechnique.val(metaImagingTechniqueVal);
-            __metaScannerVendor.val(metaScannerVendorVal);
-            __metaTimePoints.val(metaTimePointsVal);
+           
             return true;
         }
     }

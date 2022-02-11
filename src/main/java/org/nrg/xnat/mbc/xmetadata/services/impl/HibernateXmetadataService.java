@@ -7,13 +7,13 @@
  * Released under the Simplified BSD.
  */
 
-package org.nrg.xnat.plugins.template.services.impl;
+package org.nrg.xnat.mbc.xmetadata.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nrg.framework.orm.hibernate.AbstractHibernateEntityService;
-import org.nrg.xnat.plugins.template.entities.Template;
-import org.nrg.xnat.plugins.template.repositories.TemplateRepository;
-import org.nrg.xnat.plugins.template.services.TemplateService;
+import org.nrg.xnat.mbc.xmetadata.entities.Xmetadata;
+import org.nrg.xnat.mbc.xmetadata.repositories.XmetadataRepository;
+import org.nrg.xnat.mbc.xmetadata.services.XmetadataService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +22,16 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Slf4j
-public class HibernateTemplateService extends AbstractHibernateEntityService<Template, TemplateRepository> implements TemplateService {
+public class HibernateXmetadataService 
+             extends AbstractHibernateEntityService<Xmetadata, XmetadataRepository> 
+             implements XmetadataService {
     /**
      * {@inheritDoc}
      */
     @Transactional
     @Override
-    public Template findByTemplateId(final String templateId) {
-        log.trace("Requested template with ID {}", templateId);
-        return getDao().findByUniqueProperty("templateId", templateId);
+    public Xmetadata findByProjectId(final String projectId) {
+        //log.trace("Requested template with ID {}", projectId);
+        return getDao().findByUniqueProperty("projectId", projectId);
     }
 }

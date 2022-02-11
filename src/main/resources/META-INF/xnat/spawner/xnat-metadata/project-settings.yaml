@@ -1,0 +1,45 @@
+panels:
+        kind: panel.form
+        contents:
+            projectTitle:
+                kind: panel.input.text
+                name: "xnat:projectData/name"
+                label: Project Title
+                validate: required text
+                description: >
+                    <span class="noteRequired">REQUIRED: </span>
+                    <span class="formLabelRequiredStatement">Enter the full name of your project here. This will show up on
+                    project listings.</span>
+                element:
+                    size: 60
+            runningTitle:
+                kind: panel.input.text
+                name: "xnat:projectData/secondary_ID"
+                label: Running Title
+                validate: required alphaNumDashSpace max-length=24
+                description: >
+                    <span class="noteRequired">REQUIRED: </span>
+                    <span class="formLabelRequiredStatement">Create a simple abbreviation of your project name, using 24
+                    characters or less. Spaces are allowed. This will be commonly used in menus and UI elements.</span>
+                element:
+                    size: 24
+            projectID:
+                kind: panel.input.text
+                name: "xnat:projectData/ID"
+                label: Project ID
+                validate: required text id-strict max-length=24
+                description: >
+                    <span class="noteRequired">REQUIRED: </span>
+                    <span class="formLabelRequiredStatement">Create a one word project identifier. This is used in the
+                    database and <b>cannot be changed</b>.</span>
+                element:
+                    size: 24
+            institutionName:
+                kind: panel.input.text
+                name: "xnat:xmetadata/institution_name"
+                label: Institution Name
+                validate: required text id-strict max-length=99
+                description: >
+                    <span class="noteRequired">REQUIRED: </span>
+                element:
+                    size: 24

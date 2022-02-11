@@ -7,7 +7,7 @@
  * Released under the Simplified BSD.
  */
 
-package org.nrg.xnat.plugins.template.preferences;
+package org.nrg.xnat.mbc.xmetadata.preferences;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nrg.framework.configuration.ConfigPaths;
@@ -21,37 +21,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@NrgPreferenceBean(toolId = "template", toolName = "XNAT Template Plugin")
+@NrgPreferenceBean(toolId = "xmetadata", toolName = "XNAT Xmetadata Plugin")
 @Slf4j
-public class TemplatePreferencesBean extends AbstractPreferenceBean {
+public class XmetadataPreferencesBean extends AbstractPreferenceBean {
     @Autowired
-    public TemplatePreferencesBean(final NrgPreferenceService preferenceService, final ConfigPaths configFolderPaths, final OrderedProperties orderedProperties) {
+    public XmetadataPreferencesBean(final NrgPreferenceService preferenceService, final ConfigPaths configFolderPaths, final OrderedProperties orderedProperties) {
         super(preferenceService, configFolderPaths, orderedProperties);
     }
 
     @NrgPreference(defaultValue = "['Standard']")
-    public List<String> getTemplateNames() {
-        return getListValue("templateNames");
+    public List<String> getXmetadataNames() {
+        return getListValue("xmetadataNames");
     }
 
     @SuppressWarnings("unused")
-    public void setTemplateNames(final List<String> templateNames) {
+    public void setXmetadtaNames(final List<String> xmetadataNames) {
         try {
-            setListValue("templateNames", templateNames);
+            setListValue("xmetadataNames", xmetadataNames);
         } catch (InvalidPreferenceName invalidPreferenceName) {
             //
         }
     }
 
     @NrgPreference(defaultValue = "['standard']")
-    public List<String> getTemplateTypes() {
-        return getListValue("templateTypes");
+    public List<String> getXmetadataTypes() {
+        return getListValue("xmetadataTypes");
     }
 
     @SuppressWarnings("unused")
-    public void setTemplateTypes(final List<String> templateTypes) {
+    public void setXmetadataTypes(final List<String> xmetadataTypes) {
         try {
-            setListValue("templateTypes", templateTypes);
+            setListValue("xmetadataTypes", xmetadataTypes);
         } catch (InvalidPreferenceName invalidPreferenceName) {
             //
         }

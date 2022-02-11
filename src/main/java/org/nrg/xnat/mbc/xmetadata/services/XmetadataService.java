@@ -7,18 +7,18 @@
  * Released under the Simplified BSD.
  */
 
-package org.nrg.xnat.plugins.template.services;
+package org.nrg.xnat.mbc.xmetadata.services;
 
 import org.nrg.framework.orm.hibernate.BaseHibernateService;
-import org.nrg.xnat.plugins.template.entities.Template;
+import org.nrg.xnat.mbc.xmetadata.entities.Xmetadata;
 
-public interface TemplateService extends BaseHibernateService<Template> {
+public interface XmetadataService extends BaseHibernateService<Xmetadata> {
     /**
      * Finds the template with the indicated {@link Template#getTemplateId() template ID}.
      *
-     * @param templateId The template ID.
+     * @param ProjectId The template ID.
      *
      * @return The template with the indicated ID, null if not found.
      */
-    Template findByTemplateId(final String templateId);
+    Xmetadata findByProjectId(final String projectId);
 }
